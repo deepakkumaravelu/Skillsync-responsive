@@ -9,6 +9,7 @@ import Message from "./pages/message/Message"
 import Messages from "./pages/messages/Messages"
 import MyGigs from "./pages/myGigs/MyGigs"
 import Orders from "./pages/orders/Orders";
+import Login from "./pages/login/Login";
 import "./app.scss"
 function App() {
   const Layout = () => {
