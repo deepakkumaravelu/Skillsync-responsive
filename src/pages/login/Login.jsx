@@ -1,6 +1,24 @@
 import React from 'react'
 import "./Login.scss"
+import axios from "axios"
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async(e)=>{
+    e.preventDefault();
+    try{
+    const res=await axios.post("http://localhost:8800/api/auth/login",{
+      username,
+      password,
+    })
+    console.log(res);
+  }catch(err){
+    setError(err);
+    console.log(err);
+  }
+  }
   return (
     <div className="login">
     <form onSubmit={handleSubmit}>

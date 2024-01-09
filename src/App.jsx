@@ -56,7 +56,11 @@ function App() {
         {
           path:"/message/:id",
           element:<Message/>
-        }
+        },
+        {
+          path: "/login",
+          element: <Login />,
+        },
       ]
     },
   ]);
