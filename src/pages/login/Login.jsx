@@ -2,7 +2,27 @@ import React from 'react'
 import "./Login.scss"
 const Login = () => {
   return (
-    <div className='login'>Login</div>
+    <div className="login">
+    <form onSubmit={handleSubmit}>
+      <h1>Sign in</h1>
+      <label htmlFor="">Username</label>
+      <input
+        name="username"
+        type="text"
+        placeholder="johndoe"
+        onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <label htmlFor="">Password</label>
+      <input
+        name="password"
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button type="submit">Login</button>
+      {error && error}
+    </form>
+  </div>
   )
 }
 
