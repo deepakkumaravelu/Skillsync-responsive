@@ -36,7 +36,7 @@ const Navbar = () => {
           {currentUser && (
             <div className="user" onClick={() => setOpen(!open)}>
               <img
-                src={currentUser.img || "/img/man.png"}
+                src={currentUser.img || "/img/noavatar.jpg"}
                 alt=""
               />
               <span>{currentUser?.username}</span>
