@@ -10,6 +10,7 @@ import Messages from "./pages/messages/Messages"
 import MyGigs from "./pages/myGigs/MyGigs"
 import Orders from "./pages/orders/Orders";
 import Login from "./pages/login/Login";
+import Register from "./pages/register/Register";
 import "./app.scss"
 function App() {
   const Layout = () => {
@@ -61,6 +62,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/register",
+          element: <Register />,
         },
       ]
     },
