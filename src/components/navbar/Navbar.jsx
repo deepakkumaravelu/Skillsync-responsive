@@ -42,7 +42,7 @@ const Navbar = () => {
           <span><a href="#skillsyncbusiness" className="scrolleffect">SkillSync Business</a></span>
           <span><a href="#explore" className="scrolleffect">Explore</a></span>
           <span>English</span>
-          <span>Sign in</span>
+          <Link to="/login" className="link">Sign in</Link>
           {!currentUser?.isSeller && <span>Become a Seller</span>}
           {!currentUser && <button>Join</button>}
           {currentUser && (

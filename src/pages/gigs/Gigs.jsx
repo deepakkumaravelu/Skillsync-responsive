@@ -1,23 +1,32 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useRef, useState } from "react";
 import "./Gigs.scss";
-import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
-
+import newRequest from "../../utils/newRequest";
+import { useQuery} from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 function Gigs() {
   const [sort, setSort] = useState("sales");
   const [open, setOpen] = useState(false);
   const minRef = useRef();
   const maxRef = useRef();
 
+  const {search}=useLocation();
+  const { isLoading, error, data ,refetch } = useQuery({
+    queryKey: ['repoData'],
+    queryFn: () =>
+      newRequest.get(`/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}`).then(res=>{
+        return res.data;
+      }),
+  })
+  console.log(data);
   const reSort = (type) => {
     setSort(type);
     setOpen(false);
   };
 
   const apply = ()=>{
-    console.log(minRef.current.value)
-    console.log(maxRef.current.value)
+    refetch();
   }
 
   return (
@@ -54,8 +63,9 @@ function Gigs() {
           </div>
         </div>
         <div className="cards">
-          {gigs.map((gig) => (
-            <GigCard key={gig.id} item={gig} />
+          {isLoading ? "loading": error ? "Something went wrong"
+            :data.map((gig) => (
+            <GigCard key={gig._id} item={gig} />
           ))}
         </div>
       </div>
