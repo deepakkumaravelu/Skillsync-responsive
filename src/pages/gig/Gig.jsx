@@ -72,11 +72,15 @@ function Gig() {
             </div>
           )}
           <Carousel afterChange={onChange} className="slider" autoplay={true} autoplaySpeed={2000} speed={1000}>
-          {data.images.map((img) => (
                 <div>
-                <img key={img} src={img} alt="" />
+                <img key={data.images[0]} src={data.images[0]} alt="" />
                 </div>
-              ))}
+                <div>
+                <img key={data.images[1]} src={data.images[1]} alt="" />
+                </div>
+                <div>
+                <img key={data.images[2]} src={data.images[2]} alt="" />
+                </div>
         </Carousel>
           <h2>About This Gig</h2>
           <p>
