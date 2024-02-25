@@ -42,10 +42,8 @@ const Navbar = () => {
           <span><a href="#skillsyncbusiness" className="scrolleffect">SkillSync Business</a></span>
           <span><a href="#explore" className="scrolleffect">Explore</a></span>
           <span>English</span>
-          <Link to="/login" className="link">Sign in</Link>
           {!currentUser?.isSeller && <span>Become a Seller</span>}
-          {!currentUser && <button>Join</button>}
-          {currentUser && (
+          {currentUser ? (
             <div className="user" onClick={() => setOpen(!open)}>
               <img
                 src={currentUser.img || "/img/noavatar.jpg"}
@@ -66,7 +64,14 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-          )}
+          ):(
+            <>
+              <Link to="/login" className="link">Sign in</Link>
+              <Link className="link" to="/register">
+                <button>Join</button>
+              </Link>
+            </>
+            )}
         </div>
       </div>
       {(active || pathname!=="/") && (
