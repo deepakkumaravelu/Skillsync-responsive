@@ -2,55 +2,81 @@
 import React from "react";
 import "./Gig.scss";
 import { Carousel } from 'antd';
-
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import newRequest from "../../utils/newRequest";
 
 function Gig() {
   const onChange = function(currentSlide) {
     console.log(currentSlide);
   };
+  const { id } = useParams();
 
-  
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["gig"],
+    queryFn: () =>
+      newRequest.get(`/gigs/single/${id}`).then((res) => {
+        return res.data;
+      }),
+  });
+  const userId = data?.userId;
+
+  const {
+    isLoading: isLoadingUser,
+    error: errorUser,
+    data: dataUser,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: () =>
+      newRequest.get(`/users/${userId}`).then((res) => {
+        return res.data;
+      }),
+    enabled: !!userId,
+  });
+
   return (
     <div className="gig">
+    {isLoading ? (
+      "loading"
+    ) : error ? (
+      "Something went wrong!"
+    ) : (
       <div className="container">
         <div className="left">
-          <span className="breadcrumbs">SkillSync > Graphics & Design > </span>
-          <h1>I will create ai generated art for you</h1>
-          <div className="user">
-            <img
-              className="pp"
-              src="https://images.pexels.com/photos/720327/pexels-photo-720327.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            <span>Anna Bell</span>
-            <div className="stars">
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <img src="/img/star.png" alt="" />
-              <span>5</span>
+          <span className="breadcrumbs">
+            Skillsync {">"} Graphics & Design {">"}
+          </span>
+          <h1>{data.title}</h1>
+          {isLoadingUser ? (
+            "loading"
+          ) : errorUser ? (
+            "Something went wrong!"
+          ) : (
+            <div className="user">
+              <img
+                className="pp"
+                src={dataUser.img || "/img/noavatar.jpg"}
+                alt=""
+              />
+              <span>{dataUser.username}</span>
+              {!isNaN(data.totalStars / data.starNumber) && (
+                <div className="stars">
+                  {Array(Math.round(data.totalStars / data.starNumber))
+                    .fill()
+                    .map((item, i) => (
+                      <img src="/img/star.png" alt="" key={i} />
+                    ))}
+                  <span>{Math.round(data.totalStars / data.starNumber)}</span>
+                </div>
+              )}
             </div>
-          </div>
+          )}
           <Carousel afterChange={onChange} className="slider" autoplay={true} autoplaySpeed={2000} speed={1000}>
-          <div>
-          <img 
-              src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            </div>
-            <div>
-            <img 
-              src="https://images.pexels.com/photos/1462935/pexels-photo-1462935.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            </div>
-            <div>
-            <img 
-              src="https://images.pexels.com/photos/1054777/pexels-photo-1054777.jpeg?auto=compress&cs=tinysrgb&w=1600"
-              alt=""
-            />
-            </div>
+          {data.images.map((img) => (
+                <div>
+                <img key={img} src={img} alt="" />
+                </div>
+              ))}
         </Carousel>
           <h2>About This Gig</h2>
           <p>
@@ -290,7 +316,7 @@ function Gig() {
           </div>
           <button>Continue</button>
         </div>
-      </div>
+      </div>)}
     </div>
   );
 }
